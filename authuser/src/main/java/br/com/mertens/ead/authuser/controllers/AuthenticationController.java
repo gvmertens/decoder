@@ -7,6 +7,7 @@ import br.com.mertens.ead.authuser.enums.UserType;
 import br.com.mertens.ead.authuser.models.UserModel;
 import br.com.mertens.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.time.ZoneId;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
+@Log4j2
 public class AuthenticationController {
 
     @Autowired
@@ -41,6 +43,7 @@ public class AuthenticationController {
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
+        log.info("User saved successfully userId {} ", userModel.getUserId());
         return  ResponseEntity.status(HttpStatus.CREATED).body(userModel);
     }
 }
