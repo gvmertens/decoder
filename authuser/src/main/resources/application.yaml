@@ -19,11 +19,11 @@ spring:
     properties:
       hibernate:
         show_sql: true
-
-output:
-  ansi:
-    enabled: Always
-
+  output:
+    ansi:
+      enabled: Always
+  rabbitmq:
+    addresses: amqps://oqaevxaf:6KU7WK_x0k2Et0CwgwlOOdf95NAR4uPG@woodpecker.rmq.cloudamqp.com/oqaevxaf
 
 logging:
   level:
@@ -36,6 +36,9 @@ ead:
   api:
     url:
       course: 'http://ead-course-service'
+  broker:
+    exchange:
+      userEvent: ead.userevent
 
 eureka:
   client:

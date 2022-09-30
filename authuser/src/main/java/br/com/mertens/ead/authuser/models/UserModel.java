@@ -1,10 +1,13 @@
 package br.com.mertens.ead.authuser.models;
 
+import br.com.mertens.ead.authuser.dtos.UserEventDto;
 import br.com.mertens.ead.authuser.enums.UserStatus;
 import br.com.mertens.ead.authuser.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -15,7 +18,10 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "TB_USERS")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserModel extends RepresentationModel<UserModel> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,5 +56,13 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
 
     public UserCourseModel convertToUserCourseModel(UUID courseId){
         return new UserCourseModel(null, courseId, this);
+    }
+
+    public UserEventDto convertToUserEventDto(){
+        var userEventDto = new UserEventDto();
+        BeanUtils.copyProperties(this, userEventDto);
+        userEventDto.setUserType(this.getUserType().toString());
+        userEventDto.setUserStatus(this.getUserStatus().toString());
+        return userEventDto;
     }
 }

@@ -13,15 +13,17 @@ import java.util.UUID;
 @Service
 public interface UserService {
 
+    UserModel saveUser(UserModel userModel);
+
+    UserModel save(UserModel userModel);
+
     List<UserModel> findAll();
 
     Optional<UserModel> findById(UUID userID);
 
     void delete(UserModel userModel);
 
-    void save(UserModel userModel);
-
-    boolean existsByUsername(String username);
+     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
 
