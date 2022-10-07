@@ -43,6 +43,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserModel updateUser(UserModel userModel) {
+        return null;
+    }
+
+    @Override
+    public UserModel updatePassword(UserModel userModel) {
+        return null;
+    }
+
+    @Override
     public List<UserModel> findAll() {
         return userRepository.findAll();
     }
@@ -55,6 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(UserModel userModel) {
         userRepository.delete(userModel);
+    }
+
+    @Override
+    public void deleteUser(UserModel userModel) {
+
     }
 
     @Override

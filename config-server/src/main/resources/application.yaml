@@ -11,7 +11,7 @@ spring:
           uri: https://github.com/gvmertens/ead-config-server-repo
           default-label: main
           username: gvmertens
-          password: ****
+          password: aaaaaaaaaaa
 
 eureka:
   client:
