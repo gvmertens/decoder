@@ -17,11 +17,17 @@ public interface UserService {
 
     UserModel save(UserModel userModel);
 
+    UserModel updateUser(UserModel userModel);
+
+    UserModel updatePassword(UserModel userModel);
+
     List<UserModel> findAll();
 
     Optional<UserModel> findById(UUID userID);
 
     void delete(UserModel userModel);
+
+    void deleteUser(UserModel userModel);
 
      boolean existsByUsername(String username);
 
