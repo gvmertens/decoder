@@ -1,15 +1,10 @@
 package br.com.mertens.ead.authuser.controllers;
 
 import br.com.mertens.ead.authuser.clients.CourseClient;
-import br.com.mertens.ead.authuser.dtos.CourseDto;
-import br.com.mertens.ead.authuser.dtos.UserCourseDto;
-import br.com.mertens.ead.authuser.models.UserCourseModel;
 import br.com.mertens.ead.authuser.models.UserModel;
-import br.com.mertens.ead.authuser.services.UserCourseService;
 import br.com.mertens.ead.authuser.services.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -32,8 +27,6 @@ public class UserCourseController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    UserCourseService userCourseService;
 
     @GetMapping("/users/{userId}/courses")
     public ResponseEntity<Object> getAllCoursesByUser(@PageableDefault(page = 0, size = 10, sort = "courseId", direction = Sort.Direction.ASC) Pageable pageable,
@@ -45,7 +38,7 @@ public class UserCourseController {
         return ResponseEntity.status(HttpStatus.OK).body(courseClient.getAllCoursesByUser(userId, pageable));
     }
 
-    @PostMapping("/users/{userId}/courses/subscription")
+/*    @PostMapping("/users/{userId}/courses/subscription")
     public ResponseEntity<Object> saveSubscriptionUserInCourse(@PathVariable(value = "userId") UUID userId,
                                                                @RequestBody @Valid UserCourseDto userCourseDto){
         Optional<UserModel> userModelOptional = userService.findById(userId);
@@ -57,7 +50,7 @@ public class UserCourseController {
         }
         UserCourseModel userCourseModel = userCourseService.save(userModelOptional.get().convertToUserCourseModel(userCourseDto.getCourseId()));
         return  ResponseEntity.status(HttpStatus.CREATED).body(userCourseModel);
-    }
+    }*/
 
 
 }
