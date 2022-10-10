@@ -8,10 +8,25 @@ spring:
     gateway:
       routes:
         - id: authuser-service
-          uri: http://localhost:8087/
+          uri: lb://EAD-AUTHUSER-SERVICE
           predicates:
             - Path=/ead-authuser/**
         - id: course-service
-            uri: http://localhost:8082/
-            predicates:
-              - Path=/ead-course/**
+          uri: lb://EAD-COURSE-SERVICE
+          predicates:
+            - Path=/ead-course/**
+        - id: notification-service
+          uri: lb://EAD-NOTIFICATION-SERVICE
+          predicates:
+            - Path=/ead-notification/**
+ead:
+  serviceRegistry:
+    username: serviceregistry
+    password: 'ead123sr'
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 'http://${ead.serviceRegistry.username}:${ead.serviceRegistry.password}@localhost:8761/eureka'
+  instance:
+    hostname: localhost

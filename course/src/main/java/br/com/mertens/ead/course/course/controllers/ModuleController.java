@@ -6,6 +6,7 @@ import br.com.mertens.ead.course.course.models.ModuleModel;
 import br.com.mertens.ead.course.course.services.CourseService;
 import br.com.mertens.ead.course.course.services.ModuleService;
 import br.com.mertens.ead.course.course.specifications.SpecificationTemplate;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
-
+@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ModuleController {
@@ -43,6 +44,8 @@ public class ModuleController {
         BeanUtils.copyProperties(moduleDto, moduleModel);
         moduleModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         moduleModel.setCourse(courseModelOptional.get());
+        moduleService.save(moduleModel);
+        log.info("Module saved successfully moduleId {} ", moduleModel.getModuleId());
         return ResponseEntity.status(HttpStatus.CREATED).body(moduleService.save(moduleModel));
     }
 
@@ -54,6 +57,7 @@ public class ModuleController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Module not found for this course.");
         }
         moduleService.delete(moduleModelOptional.get());
+        log.info("Module deleted successfully moduleId {} ", moduleId);
         return ResponseEntity.status(HttpStatus.OK).body("Module deleted successfully.");
     }
 
@@ -68,6 +72,8 @@ public class ModuleController {
         var moduleModel = moduleModelOptional.get();
         moduleModel.setTitle(moduleDto.getTitle());
         moduleModel.setDescription(moduleDto.getDescription());
+        moduleService.save(moduleModel);
+        log.info("Module updated successfully moduleId {} ", moduleModel.getModuleId());
         return ResponseEntity.status(HttpStatus.OK).body(moduleService.save(moduleModel));
     }
 

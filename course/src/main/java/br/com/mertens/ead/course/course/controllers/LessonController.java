@@ -6,6 +6,7 @@ import br.com.mertens.ead.course.course.models.ModuleModel;
 import br.com.mertens.ead.course.course.services.LessonService;
 import br.com.mertens.ead.course.course.services.ModuleService;
 import br.com.mertens.ead.course.course.specifications.SpecificationTemplate;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
-
+@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class LessonController {
@@ -42,7 +43,8 @@ public class LessonController {
         var lessonModel = new LessonModel();
         BeanUtils.copyProperties(lessonDto, lessonModel);
         lessonModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
-        lessonModel.setModule(moduleModelOptional.get());
+        lessonModel.setModule(moduleModelOptional.get());lessonService.save(lessonModel);
+        log.info("Lesson saved successfully lessonId {} ", lessonModel.getLessonId());
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.save(lessonModel));
     }
 
@@ -54,6 +56,7 @@ public class LessonController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson not found for this module.");
         }
         lessonService.delete(lessonModelOptional.get());
+        log.info("Lesson deleted successfully lessonId {} ", lessonId);
         return ResponseEntity.status(HttpStatus.OK).body("Lesson deleted successfully.");
     }
 
@@ -69,6 +72,8 @@ public class LessonController {
         lessonModel.setTitle(lessonDto.getTitle());
         lessonModel.setDescription(lessonDto.getDescription());
         lessonModel.setVideoUrl(lessonDto.getVideoUrl());
+        lessonService.save(lessonModel);
+        log.info("Lesson updated successfully lessonId {} ", lessonModel.getLessonId());
         return ResponseEntity.status(HttpStatus.OK).body(lessonService.save(lessonModel));
     }
 
