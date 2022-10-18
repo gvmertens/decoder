@@ -1,3 +1,4 @@
+/*
 package br.com.mertens.serviceregistry.configs;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -44,3 +45,4 @@ public class WebSecurityConfig {
 
 
 }
+*/
