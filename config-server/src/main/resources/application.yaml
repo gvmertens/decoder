@@ -11,7 +11,7 @@ spring:
           uri: https://github.com/gvmertens/ead-config-server-repo
           default-label: main
           username: gvmertens
-          password: aaaaaaaaaaa
+          password: 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
 
 ead:
   configServer:
@@ -25,6 +25,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: 'http://${ead.serviceRegistry.username}:${ead.serviceRegistry.password}@localhost:8761/eureka'
+    register-with-eureka: false
+    fetch-registry: false
   instance:
     hostname: localhost
 
