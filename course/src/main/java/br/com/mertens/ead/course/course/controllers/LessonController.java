@@ -45,7 +45,8 @@ public class LessonController {
         var lessonModel = new LessonModel();
         BeanUtils.copyProperties(lessonDto, lessonModel);
         lessonModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
-        lessonModel.setModule(moduleModelOptional.get());lessonService.save(lessonModel);
+        lessonModel.setModule(moduleModelOptional.get());
+        lessonService.save(lessonModel);
         log.info("Lesson saved successfully lessonId {} ", lessonModel.getLessonId());
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.save(lessonModel));
     }
