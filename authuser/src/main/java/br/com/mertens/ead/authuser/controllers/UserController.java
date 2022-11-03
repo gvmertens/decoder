@@ -1,6 +1,7 @@
 package br.com.mertens.ead.authuser.controllers;
 
 import br.com.mertens.ead.authuser.configs.security.AuthenticationCurrentUserService;
+import br.com.mertens.ead.authuser.configs.security.UserDetailsImpl;
 import br.com.mertens.ead.authuser.dtos.UserDto;
 import br.com.mertens.ead.authuser.models.UserModel;
 import br.com.mertens.ead.authuser.services.UserService;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +45,11 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Page<UserModel>> getAllUsers(SpecificationTemplate.UserSpec spec,
-                                                       @PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable) {
+                                                       @PageableDefault(page = 0, size = 10, sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
+                                                       Authentication authentication) {
+
+        UserDetails userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
         Page<UserModel> userModelPage = userService.findAll(spec, pageable);
         if(!userModelPage.isEmpty()){
             for(UserModel user : userModelPage.toList()){
